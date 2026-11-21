@@ -166,8 +166,8 @@ require __DIR__ . '/../includes/header.php';
                         <tr>
                             <td><span class="codigo"><?= e($producto['codigo']) ?></span></td>
                             <td class="celda-producto">
-                                <strong><?= e($producto['nombre']) ?></strong>
-                                <small><?= e($producto['descripcion'] ?? 'Sin descripción registrada') ?></small>
+                                <strong title="<?= e($producto['nombre']) ?>"><?= e($producto['nombre']) ?></strong>
+                                <small title="<?= e($producto['descripcion'] ?? '') ?>"><?= e($producto['descripcion'] ?? 'Sin descripción registrada') ?></small>
                             </td>
                             <td><?= e($producto['categoria']) ?></td>
                             <td class="text-end"><?= formatear_precio($producto['precio']) ?></td>

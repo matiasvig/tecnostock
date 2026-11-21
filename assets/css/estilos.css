@@ -43,6 +43,7 @@ a {
 
 .app-shell {
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .sidebar {
@@ -206,6 +207,7 @@ a {
 .app-main {
     display: flex;
     min-height: 100vh;
+    min-height: 100dvh;
     flex-direction: column;
     margin-left: 264px;
 }
@@ -1064,6 +1066,7 @@ a {
 .login-page {
     display: grid;
     min-height: 100vh;
+    min-height: 100dvh;
     grid-template-columns: 1.05fr 0.95fr;
     background: #fff;
 }
@@ -1339,5 +1342,84 @@ a {
     .paginacion {
         flex-direction: column;
         align-items: flex-start;
+    }
+}
+
+/* Mejoras de diseno y experiencia movil */
+html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior: none;
+}
+
+body {
+    overscroll-behavior-y: contain;
+}
+
+input, textarea, select {
+    font-size: 16px;
+}
+
+button, a, [role="button"], .btn-accion, .nav-item {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+button:focus-visible, a:focus-visible, .form-control:focus-visible, .form-select:focus-visible {
+    outline: 2px solid #4338ca;
+    outline-offset: 2px;
+}
+
+.btn:active, .btn-accion:active {
+    transform: scale(0.97);
+    transition: transform 100ms ease-out;
+}
+
+.kpi-valor, .stock-numero, .cantidad-mov, .badge-stock, .badge-estado {
+    font-variant-numeric: tabular-nums;
+}
+
+.app-header, .topbar {
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
+.app-contenido {
+    padding-left: max(30px, env(safe-area-inset-left, 0px));
+    padding-right: max(30px, env(safe-area-inset-right, 0px));
+}
+
+.app-pie {
+    padding-bottom: max(18px, env(safe-area-inset-bottom, 18px));
+}
+
+@media (hover: none), (pointer: coarse) {
+    .nav-item:hover, .btn-accion:hover, .usuario-chip:hover, .tabla tbody tr:hover > td, .dropdown-item:hover {
+        background: transparent;
+        color: inherit;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .app-contenido {
+        padding-left: max(18px, env(safe-area-inset-left, 18px));
+        padding-right: max(18px, env(safe-area-inset-right, 18px));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .app-contenido {
+        padding-left: max(12px, env(safe-area-inset-left, 12px));
+        padding-right: max(12px, env(safe-area-inset-right, 12px));
     }
 }

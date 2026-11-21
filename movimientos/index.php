@@ -160,8 +160,8 @@ require __DIR__ . '/../includes/header.php';
                                 </span>
                             </td>
                             <td class="celda-producto">
-                                <strong><?= e($movimiento['producto']) ?></strong>
-                                <small><span class="codigo"><?= e($movimiento['codigo']) ?></span></small>
+                                <strong title="<?= e($movimiento['producto']) ?>"><?= e($movimiento['producto']) ?></strong>
+                                <small title="<?= e($movimiento['codigo']) ?>"><span class="codigo"><?= e($movimiento['codigo']) ?></span></small>
                             </td>
                             <td class="text-end">
                                 <span class="cantidad-mov <?= e($movimiento['tipo']) ?>">
