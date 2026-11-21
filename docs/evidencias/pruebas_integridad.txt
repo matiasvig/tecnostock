@@ -1,0 +1,22 @@
+﻿PRUEBAS DE INTEGRIDAD - TECNOSTOCK
+==============================================================
+[OK]    La clave del usuario administrador es v├ílida
+[OK]    Una clave incorrecta es rechazada
+[OK]    El stock coincide con la suma de sus movimientos -> diferencias: 0
+[OK]    El ├║ltimo stock resultante coincide con el stock actual -> diferencias: 0
+[OK]    El c├│digo de producto duplicado se rechaza -> SQLSTATE 23000
+[OK]    Un precio negativo se rechaza -> SQLSTATE 23000
+[OK]    Un stock negativo se rechaza -> SQLSTATE 23000
+[OK]    Una categor├¡a inexistente es rechazada por la clave for├ínea -> SQLSTATE 23000
+[OK]    El nombre de categor├¡a duplicado se rechaza -> SQLSTATE 23000
+[OK]    Se crea un producto temporal para las pruebas
+[OK]    Un movimiento con cantidad cero se rechaza -> SQLSTATE 23000
+[OK]    Un movimiento sin usuario v├ílido se rechaza -> SQLSTATE 23000
+[OK]    Una actualizaci├│n que deja stock negativo se rechaza -> SQLSTATE 23000
+[OK]    Una entrada actualiza el stock de forma at├│mica
+[OK]    El stock final es 12 tras una entrada de 5 y una salida de 3
+[OK]    Los dos movimientos quedan registrados
+[OK]    Una cadena con intento de inyecci├│n no altera la consulta
+[OK]    La transacci├│n de pruebas no deja datos residuales
+==============================================================
+Pruebas ejecutadas: 18 | Fallas: 0
