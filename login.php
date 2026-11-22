@@ -162,11 +162,9 @@ $flashes = obtener_flashes();
                 </button>
             </form>
 
-            <div class="login-demo">
-                <strong>Acceso de demostración</strong><br>
-                Correo: <code>admin@tecnostock.cl</code><br>
-                Contraseña: <code>Admin123*</code>
-            </div>
+            <p class="login-intro mt-3 mb-0 small">
+                Las credenciales de acceso se encuentran en el archivo README.md del proyecto.
+            </p>
         </div>
     </section>
 </div>
