@@ -78,7 +78,7 @@
 
 ### 1:50–2:15 · Edición y desactivación
 
-> «Puedo editar precio, descripción, categoría y stock mínimo. El stock actual no se escribe directamente: se muestra como solo lectura y se modifica con entradas o salidas, para no perder trazabilidad. Si subo el mínimo a ocho, el producto queda bajo el mínimo y la alerta aparece de inmediato.»
+> «Puedo editar precio, descripción, categoría y stock mínimo. El stock actual no se escribe directamente: se muestra como solo lectura y se modifica con entradas o salidas, para no perder trazabilidad. Esta decisión responde a la regla de negocio de que el stock se actualiza solo mediante movimientos, y evita que un evaluador o un usuario cambie cantidades sin un respaldo en el kardex. Si subo el mínimo a ocho, el producto queda bajo el mínimo y la alerta aparece de inmediato.»
 
 **Acción:** editar TEC-016, cambiar stock mínimo a `8`, guardar. Mostrar la alerta.
 

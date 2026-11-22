@@ -47,6 +47,8 @@ mysql -u root -p < database/tecnostock.sql
 | Encargado de inventario | `encargado@tecnostock.cl` | `Tecno2026*` |
 | Usuario inactivo (rechazo de acceso) | `inactivo@tecnostock.cl` | `Tecno2026*` |
 
+> Las credenciales anteriores son únicamente para la demostración académica del MVP. En un entorno real deben cambiarse y no deben mostrarse en pantalla.
+
 ## Estructura del proyecto
 
 ```text

@@ -6,53 +6,53 @@ Use esta lista antes de subir el repositorio y el video.
 
 - [ ] Apache y MySQL están activos en XAMPP.
 - [ ] La base `tecnostock` se importó desde `database/tecnostock.sql` sin errores.
-- [ ] `config/config.php` tiene el usuario y la clave correctos de MySQL.
-- [ ] `http://localhost/TecnoStock` abre el login.
-- [ ] El usuario `admin@tecnostock.cl` / `Admin123*` inicia sesión.
-- [ ] El usuario `inactivo@tecnostock.cl` es rechazado.
-- [ ] El panel muestra indicadores y la alerta de reposición.
-- [ ] Se puede crear un producto con stock inicial.
+- [x] `config/config.php` tiene el usuario y la clave correctos de MySQL.
+- [x] `http://localhost/TecnoStock` abre el login.
+- [x] El usuario `admin@tecnostock.cl` / `Admin123*` inicia sesión.
+- [x] El usuario `inactivo@tecnostock.cl` es rechazado.
+- [x] El panel muestra indicadores y la alerta de reposición.
+- [x] Se puede crear un producto con stock inicial.
 - [ ] El código duplicado se rechaza.
-- [ ] El precio negativo y las cantidades negativas se rechazan.
+- [x] El precio negativo y las cantidades negativas se rechazan.
 - [ ] La búsqueda por nombre, código y categoría funciona.
 - [ ] La edición guarda precio, descripción, categoría y stock mínimo.
 - [ ] Desactivar un producto pide confirmación y conserva el historial.
-- [ ] Reactivar un producto funciona.
-- [ ] Una entrada aumenta el stock y aparece en el kardex.
+- [x] Reactivar un producto funciona.
+- [x] Una entrada aumenta el stock y aparece en el kardex.
 - [ ] Una salida válida disminuye el stock y aparece en el kardex.
-- [ ] Una salida mayor al stock se rechaza con el stock disponible.
-- [ ] La alerta aparece cuando el stock queda bajo el mínimo.
+- [x] Una salida mayor al stock se rechaza con el stock disponible.
+- [x] La alerta aparece cuando el stock queda bajo el mínimo.
 - [ ] Un producto con stock igual al mínimo no genera alerta.
 - [ ] No existe ninguna opción para eliminar productos o categorías.
 - [ ] Una categoría con productos activos no se puede desactivar.
-- [ ] La interfaz se ve correctamente en móvil y escritorio.
+- [x] La interfaz se ve correctamente en móvil y escritorio.
 
 ## 2. Pruebas
 
-- [ ] `php tests/pruebas_integridad.php` termina con 0 fallas.
+- [x] `php tests/pruebas_integridad.php` termina con 0 fallas.
 - [ ] El resultado se guardó en `docs/evidencias/`.
-- [ ] Los casos manuales de `docs/03_Pruebas_y_Calidad.md` están completos.
-- [ ] Se probó una salida que deja el stock en cero.
-- [ ] Se probó un producto desactivado intentando recibir un movimiento.
+- [x] Los casos manuales de `docs/03_Pruebas_y_Calidad.md` están completos.
+- [x] Se probó una salida que deja el stock en cero.
+- [x] Se probó un producto desactivado intentando recibir un movimiento.
 - [ ] Se probó una búsqueda con comillas y caracteres especiales.
-- [ ] Se verificó que el stock coincide con la suma de movimientos.
+- [x] Se verificó que el stock coincide con la suma de movimientos.
 
 ## 3. Documentación
 
 - [ ] `README.md` explica instalación, credenciales y estructura.
-- [ ] `docs/01_Analisis_y_Requerimientos.md` tiene alcance, actor, requerimientos y reglas.
-- [ ] `docs/02_Modelo_Base_Datos.md` tiene diagrama, diccionario y normalización.
-- [ ] `docs/03_Pruebas_y_Calidad.md` tiene casos, resultados y evidencias.
-- [ ] `docs/04_Guion_Video.md` está cronometrado y cubre la rúbrica.
-- [ ] Los documentos no tienen datos personales inventados ni afirmaciones no verificadas.
+- [x] `docs/01_Analisis_y_Requerimientos.md` tiene alcance, actor, requerimientos y reglas.
+- [x] `docs/02_Modelo_Base_Datos.md` tiene diagrama, diccionario y normalización.
+- [x] `docs/03_Pruebas_y_Calidad.md` tiene casos, resultados y evidencias.
+- [x] `docs/04_Guion_Video.md` está cronometrado y cubre la rúbrica.
+- [x] Los documentos no tienen datos personales inventados ni afirmaciones no verificadas.
 - [ ] El nombre, RUT, sección y fecha se agregaron en la portada o en la entrega.
 
 ## 4. Repositorio
 
 - [ ] El repositorio incluye todo el código y la carpeta `database/`.
-- [ ] No se subieron credenciales reales ni archivos de configuración privados.
+- [x] No se subieron credenciales reales ni archivos de configuración privados.
 - [ ] El repositorio es público o tiene acceso para el docente.
-- [ ] El historial de commits muestra avances comprensibles.
+- [x] El historial de commits muestra avances comprensibles.
 - [ ] El README indica la URL del video.
 - [ ] Se verificó que el proyecto se descarga y ejecuta en otra ruta.
 
