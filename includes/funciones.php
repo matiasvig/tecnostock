@@ -2,16 +2,24 @@
 
 function detectar_base_url(): string
 {
-    $raiz = str_replace('\\', '/', dirname(__DIR__));
-    $documento = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'] ?? '') ?: '');
+    $script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
 
-    if ($documento !== '' && str_starts_with($raiz, $documento)) {
-        $base = substr($raiz, strlen($documento));
-    } else {
-        $base = '';
+    if ($script === '') {
+        return '';
     }
 
-    return rtrim($base, '/');
+    $partes = explode('/', trim($script, '/'));
+    array_pop($partes);
+
+    $subcarpetas = ['productos', 'movimientos', 'categorias', 'config', 'includes', 'assets', 'database', 'docs', 'tests'];
+
+    if (count($partes) > 0 && in_array(end($partes), $subcarpetas, true)) {
+        array_pop($partes);
+    }
+
+    $base = trim(implode('/', $partes), '/');
+
+    return $base === '' ? '' : '/' . $base;
 }
 
 function e(mixed $valor): string
