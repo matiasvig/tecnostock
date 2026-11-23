@@ -136,7 +136,7 @@
 php tests/pruebas_integridad.php
 ```
 
-> «Las veinte pruebas terminan sin fallas. Además, documenté casos manuales de flujo normal, errores y límites, con resultados y evidencias.»
+> «Las dieciocho pruebas terminan sin fallas. Además, documenté casos manuales de flujo normal, errores y límites, con resultados y evidencias.»
 
 **Pantalla:** mostrar el resumen de la terminal y, brevemente, la tabla de `docs/03_Pruebas_y_Calidad.md`.
 

@@ -12,9 +12,9 @@ Use esta lista antes de subir el repositorio y el video.
 - [x] El usuario `inactivo@tecnostock.cl` es rechazado.
 - [x] El panel muestra indicadores y la alerta de reposición.
 - [x] Se puede crear un producto con stock inicial.
-- [ ] El código duplicado se rechaza.
+- [x] El código duplicado se rechaza.
 - [x] El precio negativo y las cantidades negativas se rechazan.
-- [ ] La búsqueda por nombre, código y categoría funciona.
+- [x] La búsqueda por nombre, código y categoría funciona.
 - [ ] La edición guarda precio, descripción, categoría y stock mínimo.
 - [ ] Desactivar un producto pide confirmación y conserva el historial.
 - [x] Reactivar un producto funciona.
@@ -23,14 +23,14 @@ Use esta lista antes de subir el repositorio y el video.
 - [x] Una salida mayor al stock se rechaza con el stock disponible.
 - [x] La alerta aparece cuando el stock queda bajo el mínimo.
 - [ ] Un producto con stock igual al mínimo no genera alerta.
-- [ ] No existe ninguna opción para eliminar productos o categorías.
-- [ ] Una categoría con productos activos no se puede desactivar.
+- [x] No existe ninguna opción para eliminar productos o categorías.
+- [x] Una categoría con productos activos no se puede desactivar.
 - [x] La interfaz se ve correctamente en móvil y escritorio.
 
 ## 2. Pruebas
 
 - [x] `php tests/pruebas_integridad.php` termina con 0 fallas.
-- [ ] El resultado se guardó en `docs/evidencias/`.
+- [x] El resultado se guardó en `docs/evidencias/`.
 - [x] Los casos manuales de `docs/03_Pruebas_y_Calidad.md` están completos.
 - [x] Se probó una salida que deja el stock en cero.
 - [x] Se probó un producto desactivado intentando recibir un movimiento.
@@ -39,7 +39,7 @@ Use esta lista antes de subir el repositorio y el video.
 
 ## 3. Documentación
 
-- [ ] `README.md` explica instalación, credenciales y estructura.
+- [x] `README.md` explica instalación, credenciales y estructura.
 - [x] `docs/01_Analisis_y_Requerimientos.md` tiene alcance, actor, requerimientos y reglas.
 - [x] `docs/02_Modelo_Base_Datos.md` tiene diagrama, diccionario y normalización.
 - [x] `docs/03_Pruebas_y_Calidad.md` tiene casos, resultados y evidencias.
@@ -49,7 +49,7 @@ Use esta lista antes de subir el repositorio y el video.
 
 ## 4. Repositorio
 
-- [ ] El repositorio incluye todo el código y la carpeta `database/`.
+- [x] El repositorio incluye todo el código y la carpeta `database/`.
 - [x] No se subieron credenciales reales ni archivos de configuración privados.
 - [ ] El repositorio es público o tiene acceso para el docente.
 - [x] El historial de commits muestra avances comprensibles.
