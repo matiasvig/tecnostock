@@ -136,24 +136,24 @@ require __DIR__ . '/../includes/header.php';
         </div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table tabla">
+            <table class="table tabla tabla-compacta">
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Tipo</th>
-                        <th>Producto</th>
-                        <th class="text-end">Cantidad</th>
-                        <th class="text-end">Stock resultante</th>
-                        <th>Usuario</th>
-                        <th>Observación</th>
-                        <th></th>
+                        <th class="col-fecha">Fecha</th>
+                        <th class="d-none d-sm-table-cell col-tipo">Tipo</th>
+                        <th class="col-producto">Producto</th>
+                        <th class="text-end col-cantidad">Cantidad</th>
+                        <th class="d-none d-lg-table-cell text-end col-stock-res">Stock resultante</th>
+                        <th class="d-none d-xl-table-cell">Usuario</th>
+                        <th class="d-none d-xl-table-cell">Observación</th>
+                        <th class="d-none d-md-table-cell"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($movimientos as $movimiento): ?>
                         <tr>
                             <td class="text-nowrap"><?= e(formatear_fecha($movimiento['fecha_hora'])) ?></td>
-                            <td>
+                            <td class="d-none d-sm-table-cell">
                                 <span class="mov-tipo <?= e($movimiento['tipo']) ?>">
                                     <i class="bi <?= $movimiento['tipo'] === 'entrada' ? 'bi-arrow-down-left' : 'bi-arrow-up-right' ?>"></i>
                                     <?= e(ucfirst($movimiento['tipo'])) ?>
@@ -168,10 +168,10 @@ require __DIR__ . '/../includes/header.php';
                                     <?= $movimiento['tipo'] === 'entrada' ? '+' : '−' ?><?= (int) $movimiento['cantidad'] ?>
                                 </span>
                             </td>
-                            <td class="text-end"><strong><?= (int) $movimiento['stock_resultante'] ?></strong></td>
-                            <td><?= e($movimiento['usuario']) ?></td>
-                            <td class="text-muted"><?= e($movimiento['observacion'] ?? '—') ?></td>
-                            <td class="text-end">
+                            <td class="d-none d-lg-table-cell text-end"><strong><?= (int) $movimiento['stock_resultante'] ?></strong></td>
+                            <td class="d-none d-xl-table-cell"><?= e($movimiento['usuario']) ?></td>
+                            <td class="d-none d-xl-table-cell text-muted"><?= e($movimiento['observacion'] ?? '—') ?></td>
+                            <td class="d-none d-md-table-cell text-end">
                                 <a class="btn-accion" href="<?= url('productos/ver.php?id=' . (int) $movimiento['id_producto']) ?>" title="Ver producto">
                                     <i class="bi bi-eye"></i>
                                 </a>

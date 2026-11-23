@@ -12,6 +12,28 @@ $unidades = (int) $pdo->query('SELECT COALESCE(SUM(stock_actual), 0) FROM produc
 $valorizado = (float) $pdo->query('SELECT COALESCE(SUM(stock_actual * precio), 0) FROM producto WHERE estado = 1')->fetchColumn();
 $bajoStock = (int) $pdo->query('SELECT COUNT(*) FROM producto WHERE estado = 1 AND stock_actual < stock_minimo')->fetchColumn();
 $agotados = (int) $pdo->query('SELECT COUNT(*) FROM producto WHERE estado = 1 AND stock_actual = 0 AND stock_actual < stock_minimo')->fetchColumn();
+$productosOk = max(0, $productosActivos - $bajoStock);
+$bajoSinAgotar = max(0, $bajoStock - $agotados);
+
+$valorCategorias = $pdo->query(
+    'SELECT c.nombre, COUNT(p.id_producto) AS productos, COALESCE(SUM(p.stock_actual * p.precio), 0) AS valor
+     FROM categoria c
+     LEFT JOIN producto p ON p.id_categoria = c.id_categoria AND p.estado = 1
+     GROUP BY c.id_categoria, c.nombre
+     ORDER BY valor DESC, c.nombre ASC
+     LIMIT 5'
+)->fetchAll();
+
+$maxValorCategoria = 0.0;
+foreach ($valorCategorias as $categoria) {
+    $maxValorCategoria = max($maxValorCategoria, (float) $categoria['valor']);
+}
+
+$pctOk = $productosActivos > 0 ? $productosOk / $productosActivos * 100 : 0;
+$pctBajo = $productosActivos > 0 ? $bajoSinAgotar / $productosActivos * 100 : 0;
+$pctAgotado = $productosActivos > 0 ? $agotados / $productosActivos * 100 : 0;
+$corteOk = $pctOk;
+$corteBajo = $pctOk + $pctBajo;
 
 $productosBajo = $pdo->query(
     'SELECT p.id_producto, p.codigo, p.nombre, p.stock_actual, p.stock_minimo, c.nombre AS categoria
@@ -28,7 +50,7 @@ $ultimosMovimientos = $pdo->query(
      INNER JOIN producto p ON p.id_producto = m.id_producto
      INNER JOIN usuario u ON u.id_usuario = m.id_usuario
      ORDER BY m.fecha_hora DESC, m.id_movimiento DESC
-     LIMIT 7'
+     LIMIT 5'
 )->fetchAll();
 
 $usuario = usuario_actual();
@@ -61,7 +83,7 @@ require __DIR__ . '/includes/header.php';
         <span class="banner-icono"><i class="bi bi-exclamation-triangle-fill"></i></span>
         <div class="flex-grow-1">
             <strong><?= $bajoStock ?> <?= $bajoStock === 1 ? 'producto requiere' : 'productos requieren' ?> reposición</strong>
-            <span>El stock actual de algunos productos está por debajo del mínimo definido<?= $agotados > 0 ? ', incluidos ' . $agotados . ' sin unidades disponibles' : '' ?>.</span>
+            <span>El stock actual de algunos productos está por debajo del mínimo definido<?= $agotados > 0 ? ', entre ellos ' . $agotados . ($agotados === 1 ? ' producto sin unidades disponibles' : ' productos sin unidades disponibles') : '' ?>.</span>
         </div>
         <a class="btn btn-sm btn-outline-secondary" href="<?= url('productos/index.php?bajo_stock=1') ?>">Revisar</a>
     </div>
@@ -88,7 +110,7 @@ require __DIR__ . '/includes/header.php';
         <div class="tarjeta kpi kpi-verde">
             <div class="kpi-icono"><i class="bi bi-cash-stack"></i></div>
             <div class="kpi-etiqueta">Inventario valorizado</div>
-            <div class="kpi-valor" style="font-size: 1.5rem;"><?= formatear_precio($valorizado) ?></div>
+            <div class="kpi-valor kpi-valor-dinero"><?= formatear_precio($valorizado) ?></div>
             <div class="kpi-nota">Stock por precio de venta</div>
         </div>
     </div>
@@ -98,6 +120,96 @@ require __DIR__ . '/includes/header.php';
             <div class="kpi-etiqueta">Alertas de stock</div>
             <div class="kpi-valor"><?= number_format($bajoStock, 0, ',', '.') ?></div>
             <div class="kpi-nota"><?= $bajoStock > 0 ? 'Productos bajo el mínimo' : 'Sin alertas pendientes' ?></div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-7">
+        <div class="tarjeta tarjeta-salud h-100">
+            <div class="tarjeta-cabecera">
+                <div>
+                    <h2>Salud del inventario</h2>
+                    <p>Distribución de los productos activos</p>
+                </div>
+                <span class="chip-suave"><?= number_format($pctOk, 0, ',', '.') ?>% óptimo</span>
+            </div>
+            <div class="tarjeta-cuerpo">
+                <?php if ($productosActivos === 0): ?>
+                    <div class="vacio">
+                        <i class="bi bi-box"></i>
+                        <strong>No hay productos activos</strong>
+                        <span>Registre un producto para comenzar a medir el inventario.</span>
+                    </div>
+                <?php else: ?>
+                    <div class="salud">
+                        <div
+                            class="dona"
+                            role="img"
+                            aria-label="<?= $productosOk ?> productos óptimos, <?= $bajoSinAgotar ?> bajo el mínimo y <?= $agotados ?> agotados"
+                            style="background: conic-gradient(#12b76a 0 <?= number_format($corteOk, 2, '.', '') ?>%, #f79009 <?= number_format($corteOk, 2, '.', '') ?>% <?= number_format($corteBajo, 2, '.', '') ?>%, #f04438 <?= number_format($corteBajo, 2, '.', '') ?>% 100%);"
+                        >
+                            <div class="dona-centro">
+                                <strong><?= number_format($pctOk, 0, ',', '.') ?>%</strong>
+                                <span>óptimo</span>
+                            </div>
+                        </div>
+                        <div class="medidor-leyenda">
+                            <div class="ok">
+                                <strong><?= number_format($productosOk, 0, ',', '.') ?></strong>
+                                <span>Óptimo</span>
+                            </div>
+                            <div class="bajo">
+                                <strong><?= number_format($bajoSinAgotar, 0, ',', '.') ?></strong>
+                                <span>Bajo el mínimo</span>
+                            </div>
+                            <div class="agotado">
+                                <strong><?= number_format($agotados, 0, ',', '.') ?></strong>
+                                <span>Agotados</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="salud-pie">
+                        <i class="bi bi-info-circle"></i>
+                        <span>
+                            <?php if ($bajoStock > 0): ?>
+                                <?= $bajoStock ?> <?= $bajoStock === 1 ? 'producto requiere' : 'productos requieren' ?> reposición.
+                            <?php else: ?>
+                                Todos los productos activos están sobre el mínimo.
+                            <?php endif; ?>
+                        </span>
+                        <?php if ($bajoStock > 0): ?>
+                            <a href="<?= url('productos/index.php?bajo_stock=1') ?>">Revisar <i class="bi bi-arrow-right"></i></a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="tarjeta h-100">
+            <div class="tarjeta-cabecera">
+                <div>
+                    <h2>Valor por categoría</h2>
+                    <p>Stock activo valorizado a precio de venta</p>
+                </div>
+            </div>
+            <div class="tarjeta-cuerpo">
+                <?php foreach ($valorCategorias as $categoria): ?>
+                    <?php $pctCategoria = $maxValorCategoria > 0 ? (float) $categoria['valor'] / $maxValorCategoria * 100 : 0; ?>
+                    <div class="barra-categoria">
+                        <div class="barra-categoria-cabecera">
+                            <span title="<?= e($categoria['nombre']) ?>"><?= e($categoria['nombre']) ?></span>
+                            <strong><?= formatear_precio((float) $categoria['valor']) ?></strong>
+                        </div>
+                        <div class="barra-categoria-pista">
+                            <span style="width: <?= number_format($pctCategoria, 2, '.', '') ?>%"></span>
+                        </div>
+                        <small><?= (int) $categoria['productos'] ?> <?= (int) $categoria['productos'] === 1 ? 'producto activo' : 'productos activos' ?></small>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </div>
@@ -121,13 +233,13 @@ require __DIR__ . '/includes/header.php';
                 </div>
             <?php else: ?>
                 <div class="table-responsive">
-                    <table class="table tabla">
+                    <table class="table tabla tabla-compacta">
                         <thead>
                             <tr>
                                 <th>Producto</th>
-                                <th>Stock</th>
-                                <th>Mínimo</th>
-                                <th class="text-end">Acción</th>
+                                <th class="col-stock">Stock</th>
+                                <th class="d-none d-sm-table-cell col-minimo">Mínimo</th>
+                                <th class="text-end col-acciones">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -141,7 +253,7 @@ require __DIR__ . '/includes/header.php';
                                     <td>
                                         <span class="stock-numero <?= e($estado['clase']) ?>"><?= (int) $producto['stock_actual'] ?></span>
                                     </td>
-                                    <td><span class="stock-minimo"><?= (int) $producto['stock_minimo'] ?></span></td>
+                                    <td class="d-none d-sm-table-cell"><span class="stock-minimo"><?= (int) $producto['stock_minimo'] ?></span></td>
                                     <td class="text-end">
                                         <a class="btn btn-sm btn-outline-secondary" href="<?= url('movimientos/registrar.php?producto=' . (int) $producto['id_producto'] . '&tipo=entrada') ?>">
                                             Reponer

@@ -66,7 +66,7 @@ require __DIR__ . '/../includes/header.php';
             </span>
             <?php if ($estaActivo): ?>
                 <span class="badge-stock <?= e($estadoStock['clase']) ?>">
-                    <i class="bi <?= e($estadoStock['icono']) ?>"></i><?= e($estadoStock['texto']) ?>
+                    <?= e($estadoStock['texto']) ?>
                 </span>
             <?php endif; ?>
         </div>

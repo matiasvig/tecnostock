@@ -80,13 +80,19 @@ $flashes = obtener_flashes();
         </a>
 
         <div>
-            <h1>Todo su inventario, bajo control.</h1>
+            <span class="login-eyebrow">Caso 1 · Sistema de inventario</span>
+            <h1>Todo su inventario, <em>bajo control.</em></h1>
             <p>Centralice el catálogo de accesorios tecnológicos, registre cada entrada y salida y anticipe la reposición antes de que un producto se agote.</p>
             <ul class="login-lista">
-                <li><i class="bi bi-check-circle"></i> Catálogo con búsqueda por código, nombre o categoría</li>
-                <li><i class="bi bi-check-circle"></i> Movimientos con actualización automática del stock</li>
-                <li><i class="bi bi-check-circle"></i> Alertas de stock bajo y trazabilidad por usuario</li>
+                <li>Catálogo con búsqueda por código, nombre o categoría</li>
+                <li>Movimientos con actualización automática del stock</li>
+                <li>Alertas de stock bajo y trazabilidad por usuario</li>
             </ul>
+            <div class="login-datos">
+                <div><strong>4</strong><span>tablas relacionales</span></div>
+                <div><strong>18</strong><span>pruebas automáticas</span></div>
+                <div><strong>100%</strong><span>local y offline</span></div>
+            </div>
         </div>
 
         <span class="login-pie">Sistema de inventario · TecnoStock <?= date('Y') ?></span>

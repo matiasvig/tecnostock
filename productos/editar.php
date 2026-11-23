@@ -293,7 +293,7 @@ require __DIR__ . '/../includes/header.php';
                             <span class="stock-minimo">unidades disponibles</span>
                         </div>
                         <span class="badge-stock <?= e($estadoStock['clase']) ?>">
-                            <i class="bi <?= e($estadoStock['icono']) ?>"></i><?= e($estadoStock['texto']) ?>
+                            <?= e($estadoStock['texto']) ?>
                         </span>
                     </div>
 

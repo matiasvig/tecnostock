@@ -144,17 +144,17 @@ require __DIR__ . '/../includes/header.php';
         </div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table tabla">
+            <table class="table tabla tabla-compacta">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Producto</th>
-                        <th>Categoría</th>
-                        <th class="text-end">Precio</th>
-                        <th>Stock</th>
-                        <th>Mínimo</th>
-                        <th>Estado</th>
-                        <th class="text-end">Acciones</th>
+                        <th class="d-none d-xl-table-cell">Código</th>
+                        <th class="col-producto">Producto</th>
+                        <th class="d-none d-lg-table-cell">Categoría</th>
+                        <th class="d-none d-lg-table-cell text-end">Precio</th>
+                        <th class="col-stock">Stock</th>
+                        <th class="d-none d-md-table-cell col-minimo">Mínimo</th>
+                        <th class="d-none d-sm-table-cell col-estado">Estado</th>
+                        <th class="text-end col-acciones">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -164,23 +164,23 @@ require __DIR__ . '/../includes/header.php';
                         $estaActivo = (int) $producto['estado'] === 1;
                         ?>
                         <tr>
-                            <td><span class="codigo"><?= e($producto['codigo']) ?></span></td>
+                            <td class="d-none d-xl-table-cell"><span class="codigo"><?= e($producto['codigo']) ?></span></td>
                             <td class="celda-producto">
                                 <strong title="<?= e($producto['nombre']) ?>"><?= e($producto['nombre']) ?></strong>
                                 <small title="<?= e($producto['descripcion'] ?? '') ?>"><?= e($producto['descripcion'] ?? 'Sin descripción registrada') ?></small>
                             </td>
-                            <td><?= e($producto['categoria']) ?></td>
-                            <td class="text-end"><?= formatear_precio($producto['precio']) ?></td>
+                            <td class="d-none d-lg-table-cell"><?= e($producto['categoria']) ?></td>
+                            <td class="d-none d-lg-table-cell text-end"><?= formatear_precio($producto['precio']) ?></td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="stock-numero <?= e($estadoStock['clase']) ?>"><?= (int) $producto['stock_actual'] ?></span>
-                                    <span class="badge-stock <?= e($estadoStock['clase']) ?>">
-                                        <i class="bi <?= e($estadoStock['icono']) ?>"></i><?= e($estadoStock['texto']) ?>
+                                    <span class="badge-stock <?= e($estadoStock['clase']) ?> d-none d-md-inline-flex">
+                                        <?= e($estadoStock['texto']) ?>
                                     </span>
                                 </div>
                             </td>
-                            <td><span class="stock-minimo"><?= (int) $producto['stock_minimo'] ?></span></td>
-                            <td>
+                            <td class="d-none d-md-table-cell"><span class="stock-minimo"><?= (int) $producto['stock_minimo'] ?></span></td>
+                            <td class="d-none d-sm-table-cell">
                                 <span class="badge-estado <?= $estaActivo ? 'activo' : 'inactivo' ?>">
                                     <?= $estaActivo ? 'Activo' : 'Desactivado' ?>
                                 </span>

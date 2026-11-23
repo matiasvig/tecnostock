@@ -26,6 +26,7 @@ $iconosFlash = [
     <link rel="stylesheet" href="<?= url('assets/css/estilos.css') ?>">
 </head>
 <body>
+<a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
 <div class="app-shell">
     <aside class="sidebar" id="sidebar">
         <a class="brand" href="<?= url('dashboard.php') ?>">
@@ -37,16 +38,16 @@ $iconosFlash = [
         </a>
 
         <nav class="sidebar-nav" aria-label="Menú principal">
-            <a class="nav-item <?= $activo === 'panel' ? 'activo' : '' ?>" href="<?= url('dashboard.php') ?>">
+            <a class="nav-item <?= $activo === 'panel' ? 'activo' : '' ?>" href="<?= url('dashboard.php') ?>" <?= $activo === 'panel' ? 'aria-current="page"' : '' ?>>
                 <i class="bi bi-grid-1x2"></i><span>Panel</span>
             </a>
-            <a class="nav-item <?= $activo === 'productos' ? 'activo' : '' ?>" href="<?= url('productos/index.php') ?>">
+            <a class="nav-item <?= $activo === 'productos' ? 'activo' : '' ?>" href="<?= url('productos/index.php') ?>" <?= $activo === 'productos' ? 'aria-current="page"' : '' ?>>
                 <i class="bi bi-box-seam"></i><span>Productos</span>
             </a>
-            <a class="nav-item <?= $activo === 'movimientos' ? 'activo' : '' ?>" href="<?= url('movimientos/index.php') ?>">
+            <a class="nav-item <?= $activo === 'movimientos' ? 'activo' : '' ?>" href="<?= url('movimientos/index.php') ?>" <?= $activo === 'movimientos' ? 'aria-current="page"' : '' ?>>
                 <i class="bi bi-arrow-left-right"></i><span>Movimientos</span>
             </a>
-            <a class="nav-item <?= $activo === 'categorias' ? 'activo' : '' ?>" href="<?= url('categorias/index.php') ?>">
+            <a class="nav-item <?= $activo === 'categorias' ? 'activo' : '' ?>" href="<?= url('categorias/index.php') ?>" <?= $activo === 'categorias' ? 'aria-current="page"' : '' ?>>
                 <i class="bi bi-tags"></i><span>Categorías</span>
             </a>
         </nav>
@@ -99,7 +100,7 @@ $iconosFlash = [
             </div>
         </header>
 
-        <main class="app-contenido">
+        <main class="app-contenido" id="contenido">
             <?php foreach ($flashes as $flash): ?>
                 <?php $tipo = isset($iconosFlash[$flash['tipo']]) ? $flash['tipo'] : 'info'; ?>
                 <div class="alert alert-<?= e($tipo) ?> alert-dismissible fade show alert-sistema" role="alert">
