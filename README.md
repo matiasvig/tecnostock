@@ -122,6 +122,12 @@ Los casos de prueba manuales y los resultados esperados están en `docs/03_Prueb
 
 La interfaz usa **Inter** e **Instrument Serif**, autoalojadas en `assets/fonts/` para funcionar sin conexión. Ambas se distribuyen bajo la SIL Open Font License 1.1; el texto de la licencia está en `assets/fonts/OFL-Inter.txt` y `assets/fonts/OFL-InstrumentSerif.txt`.
 
+## Video explicativo
+
+- **Enlace:** https://drive.google.com/file/d/1zq91pbZdaOg-5qBLMlYlKYi0LCUQCq_C/view?usp=sharing
+- Duración: 4:50 (dentro del límite de 5 minutos).
+- El video muestra el flujo completo del MVP y explica interfaz, PHP/PDO, JavaScript y MySQL.
+
 ## Datos del estudiante
 - **Nombre:** Matias Viluñir Gonzalez
 - **RUT:** 21734334-8

@@ -53,7 +53,7 @@ Use esta lista antes de subir el repositorio y el video.
 - [x] No se subieron credenciales reales ni archivos de configuración privados.
 - [ ] El repositorio es público o tiene acceso para el docente.
 - [x] El historial de commits muestra avances comprensibles.
-- [ ] El README indica la URL del video.
+- [x] El README indica la URL del video.
 - [ ] Se verificó que el proyecto se descarga y ejecuta en otra ruta.
 
 ## 5. Video
