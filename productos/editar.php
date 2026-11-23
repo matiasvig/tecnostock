@@ -37,6 +37,9 @@ $valores = [
     'descripcion' => $producto['descripcion'] ?? '',
     'precio' => $producto['precio'],
     'stock_minimo' => $producto['stock_minimo'],
+    'ajuste_tipo' => '',
+    'ajuste_cantidad' => '1',
+    'ajuste_observacion' => '',
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -48,6 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $valores['descripcion'] = trim((string) ($_POST['descripcion'] ?? ''));
     $valores['precio'] = trim((string) ($_POST['precio'] ?? ''));
     $valores['stock_minimo'] = trim((string) ($_POST['stock_minimo'] ?? '0'));
+    $valores['ajuste_tipo'] = (string) ($_POST['ajuste_tipo'] ?? '');
+    $valores['ajuste_cantidad'] = trim((string) ($_POST['ajuste_cantidad'] ?? '1'));
+    $valores['ajuste_observacion'] = trim((string) ($_POST['ajuste_observacion'] ?? ''));
 
     if (!preg_match('/^[A-Z0-9][A-Z0-9\-]{2,19}$/', $valores['codigo'])) {
         $errores['codigo'] = 'Use entre 3 y 20 caracteres: letras, números o guiones.';
@@ -85,6 +91,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores['stock_minimo'] = 'Ingrese una cantidad entera entre 0 y 9.999.999.';
     }
 
+    if (!in_array($valores['ajuste_tipo'], ['', 'entrada', 'salida'], true)) {
+        $valores['ajuste_tipo'] = '';
+    }
+
+    if ($valores['ajuste_tipo'] !== '') {
+        if (!preg_match('/^\d{1,7}$/', $valores['ajuste_cantidad']) || (int) $valores['ajuste_cantidad'] < 1) {
+            $errores['ajuste_cantidad'] = 'Ingrese una cantidad entera mayor que cero.';
+        }
+
+        if (mb_strlen($valores['ajuste_observacion']) > 200) {
+            $errores['ajuste_observacion'] = 'La observaci��n no puede superar los 200 caracteres.';
+        }
+    }
+
     if (!isset($errores['codigo'])) {
         $existe = $pdo->prepare('SELECT COUNT(*) FROM producto WHERE codigo = :codigo AND id_producto <> :id');
         $existe->execute([
@@ -99,6 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($errores === []) {
         try {
+            $pdo->beginTransaction();
+
             $actualizar = $pdo->prepare(
                 'UPDATE producto
                  SET codigo = :codigo, nombre = :nombre, descripcion = :descripcion, precio = :precio,
@@ -116,9 +138,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'id' => $idProducto,
             ]);
 
-            flash('success', 'Los datos del producto se actualizaron correctamente.');
+            $ajusteRealizado = false;
+            $nuevoStock = (int) $producto['stock_actual'];
+
+            if ($valores['ajuste_tipo'] !== '') {
+                $consulta = $pdo->prepare(
+                    'SELECT stock_actual, stock_minimo, estado
+                     FROM producto
+                     WHERE id_producto = :id
+                     FOR UPDATE'
+                );
+                $consulta->execute(['id' => $idProducto]);
+                $productoActual = $consulta->fetch();
+
+                if (!$productoActual || (int) $productoActual['estado'] !== 1) {
+                    throw new RuntimeException('El producto no admite movimientos.');
+                }
+
+                $stockActual = (int) $productoActual['stock_actual'];
+                $stockMinimo = (int) $productoActual['stock_minimo'];
+                $cantidadAjuste = (int) $valores['ajuste_cantidad'];
+                $tipoAjuste = $valores['ajuste_tipo'];
+
+                if ($tipoAjuste === 'salida' && $cantidadAjuste > $stockActual) {
+                    throw new RuntimeException('No hay stock suficiente para el ajuste. Disponible: ' . $stockActual . ' unidades.');
+                }
+
+                $nuevoStock = $tipoAjuste === 'entrada' ? $stockActual + $cantidadAjuste : $stockActual - $cantidadAjuste;
+
+                $actualizarStock = $pdo->prepare(
+                    'UPDATE producto
+                     SET stock_actual = :nuevo, actualizado_en = :fecha
+                     WHERE id_producto = :id AND stock_actual = :anterior'
+                );
+                $actualizarStock->execute([
+                    'nuevo' => $nuevoStock,
+                    'fecha' => fecha_hora_actual(),
+                    'id' => $idProducto,
+                    'anterior' => $stockActual,
+                ]);
+
+                if ($actualizarStock->rowCount() !== 1) {
+                    throw new RuntimeException('El stock cambi�� durante la operaci��n.');
+                }
+
+                $observacionAjuste = $valores['ajuste_observacion'] !== ''
+                    ? $valores['ajuste_observacion']
+                    : 'Ajuste manual desde la edici��n del producto.';
+
+                $registrar = $pdo->prepare(
+                    'INSERT INTO movimiento (fecha_hora, tipo, cantidad, observacion, stock_resultante, id_producto, id_usuario)
+                     VALUES (:fecha, :tipo, :cantidad, :observacion, :stock_resultante, :producto, :usuario)'
+                );
+                $registrar->execute([
+                    'fecha' => fecha_hora_actual(),
+                    'tipo' => $tipoAjuste,
+                    'cantidad' => $cantidadAjuste,
+                    'observacion' => $observacionAjuste,
+                    'stock_resultante' => $nuevoStock,
+                    'producto' => $idProducto,
+                    'usuario' => (int) usuario_actual()['id_usuario'],
+                ]);
+
+                $ajusteRealizado = true;
+            }
+
+            $pdo->commit();
+
+            if ($ajusteRealizado) {
+                flash('success', 'Los datos del producto se actualizaron correctamente y se registr�� un ' . $valores['ajuste_tipo'] . ' de ' . (int) $valores['ajuste_cantidad'] . ' unidades. El stock actual es de ' . $nuevoStock . ' unidades.');
+            } else {
+                flash('success', 'Los datos del producto se actualizaron correctamente.');
+            }
+
             redirigir('productos/ver.php?id=' . $idProducto);
+        } catch (RuntimeException $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            $errores['general'] = $e->getMessage();
         } catch (PDOException $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
             if ($e->getCode() === '23000') {
                 $errores['codigo'] = 'Ya existe otro producto registrado con este código.';
             } else {
@@ -309,6 +411,63 @@ require __DIR__ . '/../includes/header.php';
                         <a class="btn btn-outline-secondary btn-sm" href="<?= url('movimientos/registrar.php?producto=' . $idProducto . '&tipo=salida') ?>">
                             <i class="bi bi-arrow-up-right me-1"></i> Registrar salida
                         </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tarjeta mb-4">
+                <div class="tarjeta-cabecera">
+                    <div>
+                        <h2>Ajuste de stock</h2>
+                        <p>Opcional, queda respaldado por un movimiento</p>
+                    </div>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <div class="mb-3">
+                        <span class="form-label d-block">Tipo de ajuste</span>
+                        <div class="segmento">
+                            <input type="radio" id="ajuste_ninguno" name="ajuste_tipo" value="" <?= $valores['ajuste_tipo'] === '' ? 'checked' : '' ?>>
+                            <label for="ajuste_ninguno">Sin ajuste</label>
+
+                            <input type="radio" id="ajuste_entrada" name="ajuste_tipo" value="entrada" <?= $valores['ajuste_tipo'] === 'entrada' ? 'checked' : '' ?>>
+                            <label class="entrada" for="ajuste_entrada"><i class="bi bi-arrow-down-left"></i> Entrada</label>
+
+                            <input type="radio" id="ajuste_salida" name="ajuste_tipo" value="salida" <?= $valores['ajuste_tipo'] === 'salida' ? 'checked' : '' ?>>
+                            <label class="salida" for="ajuste_salida"><i class="bi bi-arrow-up-right"></i> Salida</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="ajuste_cantidad">Cantidad</label>
+                        <div class="input-group">
+                            <input
+                                type="number"
+                                class="form-control <?= isset($errores['ajuste_cantidad']) ? 'is-invalid' : '' ?>"
+                                id="ajuste_cantidad"
+                                name="ajuste_cantidad"
+                                value="<?= e($valores['ajuste_cantidad']) ?>"
+                                min="1"
+                                max="9999999"
+                                step="1"
+                                data-enteros
+                            >
+                            <span class="input-group-text">unidades</span>
+                            <div class="invalid-feedback"><?= e($errores['ajuste_cantidad'] ?? 'Ingrese una cantidad mayor que cero.') ?></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label" for="ajuste_observacion">Observaci��n del ajuste</label>
+                        <input
+                            type="text"
+                            class="form-control <?= isset($errores['ajuste_observacion']) ? 'is-invalid' : '' ?>"
+                            id="ajuste_observacion"
+                            name="ajuste_observacion"
+                            value="<?= e($valores['ajuste_observacion']) ?>"
+                            maxlength="200"
+                            placeholder="Ej: Correcci��n de inventario"
+                        >
+                        <div class="invalid-feedback"><?= e($errores['ajuste_observacion'] ?? 'La observaci��n no puede superar los 200 caracteres.') ?></div>
                     </div>
                 </div>
             </div>

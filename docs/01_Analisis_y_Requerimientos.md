@@ -93,7 +93,7 @@ El caso define un único actor operativo. Por eso no se implementaron roles dife
 | RF-04 | Consultar el listado de productos con paginación. | Alta | `productos/index.php` |
 | RF-05 | Buscar productos por nombre, código o categoría. | Alta | `productos/index.php` |
 | RF-06 | Filtrar por categoría, estado y productos con stock bajo. | Media | `productos/index.php` |
-| RF-07 | Modificar precio, descripción, categoría, nombre, código y stock mínimo. | Alta | `productos/editar.php` |
+| RF-07 | Modificar precio, descripción, categoría, nombre, código, stock mínimo y ajustar el stock mediante un movimiento. | Alta | `productos/editar.php` |
 | RF-08 | Desactivar productos que ya no se comercializan y permitir reactivarlos. | Alta | `productos/estado.php` |
 | RF-09 | Registrar entradas de existencias. | Alta | `movimientos/registrar.php` |
 | RF-10 | Registrar salidas de existencias con validación de stock disponible. | Alta | `movimientos/registrar.php` |
