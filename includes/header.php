@@ -37,7 +37,6 @@ $iconosFlash = [
         </a>
 
         <nav class="sidebar-nav" aria-label="Menú principal">
-            <span class="nav-etiqueta">Operación</span>
             <a class="nav-item <?= $activo === 'panel' ? 'activo' : '' ?>" href="<?= url('dashboard.php') ?>">
                 <i class="bi bi-grid-1x2"></i><span>Panel</span>
             </a>
