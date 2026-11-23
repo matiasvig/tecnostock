@@ -55,6 +55,7 @@ mysql -u root -p < database/tecnostock.sql
 TecnoStock/
 ├── assets/
 │   ├── css/estilos.css
+│   ├── fonts/                 Inter e Instrument Serif autoalojadas
 │   ├── js/app.js
 │   ├── js/validaciones.js
 │   └── vendor/                Bootstrap 5.3.3 y Bootstrap Icons
@@ -117,8 +118,11 @@ Los casos de prueba manuales y los resultados esperados están en `docs/03_Prueb
 - Validación y normalización de datos en el servidor, independiente de JavaScript.
 - Registro de errores técnicos en el log de PHP, sin exponer detalles al usuario.
 
-## Datos del estudiante
+## Créditos tipográficos
 
+La interfaz usa **Inter** e **Instrument Serif**, autoalojadas en `assets/fonts/` para funcionar sin conexión. Ambas se distribuyen bajo la SIL Open Font License 1.1; el texto de la licencia está en `assets/fonts/OFL-Inter.txt` y `assets/fonts/OFL-InstrumentSerif.txt`.
+
+## Datos del estudiante
 - **Nombre:** Matias Viluñir Gonzalez
 - **RUT:** 21734334-8
 - **Sección:** 411
