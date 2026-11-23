@@ -9,6 +9,7 @@ Proyecto académico de **Sistemas de Información**. Desarrollado con HTML5, Boo
 - Inicio y cierre de sesión con contraseñas cifradas y protección CSRF.
 - Panel con productos activos, unidades en stock, inventario valorizado y alertas.
 - Registro, consulta, búsqueda, edición y desactivación de productos.
+- Ajuste de stock desde la edición, respaldado por un movimiento trazable.
 - Búsqueda por nombre, código o categoría, con filtros por estado y stock bajo.
 - Registro de entradas y salidas con actualización automática del stock.
 - Alerta visual cuando el stock actual es menor que el stock mínimo.
