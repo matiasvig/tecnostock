@@ -117,6 +117,12 @@ Los casos de prueba manuales y los resultados esperados están en `docs/03_Prueb
 - Validación y normalización de datos en el servidor, independiente de JavaScript.
 - Registro de errores técnicos en el log de PHP, sin exponer detalles al usuario.
 
+## Datos del estudiante
+
+- **Nombre:** Matias Viluñir Gonzalez
+- **Sección:** 411
+- **Fecha de entrega:** 22 de noviembre de 2026
+
 ## Autoría
 
 Proyecto desarrollado para la evaluación del Caso 1: Sistema de inventario para TecnoStock.

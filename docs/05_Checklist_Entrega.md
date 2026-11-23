@@ -45,7 +45,7 @@ Use esta lista antes de subir el repositorio y el video.
 - [x] `docs/03_Pruebas_y_Calidad.md` tiene casos, resultados y evidencias.
 - [x] `docs/04_Guion_Video.md` está cronometrado y cubre la rúbrica.
 - [x] Los documentos no tienen datos personales inventados ni afirmaciones no verificadas.
-- [ ] El nombre, RUT, sección y fecha se agregaron en la portada o en la entrega.
+- [x] El nombre, sección y fecha se agregaron en el README. RUT por completar si el docente lo exige.
 
 ## 4. Repositorio
 
