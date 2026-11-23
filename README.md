@@ -120,6 +120,7 @@ Los casos de prueba manuales y los resultados esperados están en `docs/03_Prueb
 ## Datos del estudiante
 
 - **Nombre:** Matias Viluñir Gonzalez
+- **RUT:** 21734334-8
 - **Sección:** 411
 - **Fecha de entrega:** 22 de noviembre de 2026
 
