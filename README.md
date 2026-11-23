@@ -133,7 +133,7 @@ La interfaz usa **Inter** e **Instrument Serif**, autoalojadas en `assets/fonts/
 - **Nombre:** Matias Viluñir Gonzalez
 - **RUT:** 21734334-8
 - **Sección:** 411
-- **Fecha de entrega:** 22 de noviembre de 2026
+- **Fecha de entrega:** 23 de noviembre de 2026
 
 ## Autoría
 
