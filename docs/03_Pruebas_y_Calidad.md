@@ -75,6 +75,21 @@ Pruebas ejecutadas: 18 | Fallas: 0
 | Seguridad | Cadena con intento de inyección SQL sin alterar la consulta. |
 | Limpieza | Sin datos residuales tras la transacción. |
 
+## 4.1 Verificación de importación y ejecución del MVP
+
+La importación del script y la ejecución del flujo se verificaron en el entorno de desarrollo:
+
+- El script `database/tecnostock.sql` se importó sin errores en MariaDB 11.4 (4 tablas, 7 categorías, 3 usuarios, 15 productos, 30 movimientos).
+- El servidor PHP 8.3 sirvió la aplicación en `http://localhost/TecnoStock/` sin errores 404 ni 500.
+- El flujo de login respondió con HTTP 302 y sesión activa.
+- La creación de un producto respondió con HTTP 302 a `productos/ver.php?id=...`.
+- La entrada y la salida válidas respondieron con HTTP 302 y actualizaron el stock.
+- La salida mayor al stock se rechazó con el mensaje de stock disponible.
+- La desactivación y reactivación respondieron con HTTP 302.
+- La búsqueda con inyección SQL respondió sin error y sin alterar resultados.
+
+Evidencia completa en `docs/evidencias/pruebas_curl.txt`.
+
 ## 5. Pruebas manuales de flujo
 
 Evidencia complementaria en `docs/evidencias/pruebas_curl.txt`.

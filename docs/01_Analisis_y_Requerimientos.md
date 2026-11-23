@@ -238,6 +238,21 @@ El caso define un único actor operativo. Por eso no se implementaron roles dife
 | Pruebas y calidad | Casos de prueba, pruebas automatizadas y git | `03_Pruebas_y_Calidad.md` |
 | Video | Guion cronometrado y recorrido de código | `04_Guion_Video.md` |
 
+### 9.3 Trazabilidad regla de negocio → prueba
+
+| Regla | Descripción breve | Prueba que la verifica |
+|---|---|---|
+| RN-01 | Código único | CP-05, CP-14, prueba automatizada "código duplicado" |
+| RN-02 | Valores no negativos | CP-06, CP-07, pruebas automatizadas de precio/stock/cantidad |
+| RN-03 | Movimiento completo | CP-17, CP-18, prueba automatizada "movimiento con cantidad cero" |
+| RN-04 | Salida no deja stock bajo cero | CP-19, prueba automatizada "actualización que deja stock negativo" |
+| RN-05 | Desactivación sin borrado | CP-15, CP-21, revisión de ausencia de endpoint DELETE |
+| RN-06 | Stock automático | CP-16, CP-17, CP-18, prueba automatizada "entrada atómica" |
+| RN-07 | Alerta de stock bajo | CP-22, CP-23, verificación en panel, listado y detalle |
+| RN-08 | Categoría con productos activos | CP-26, prueba de bloqueo |
+| RN-09 | Producto inactivo sin movimientos | CP-21, verificación en `movimientos/registrar.php` |
+| RN-10 | Stock inicial respaldado | CP-04, verificación del kardex tras crear producto |
+
 ## 10. Criterios de aceptación
 
 | ID | Escenario | Resultado esperado |
